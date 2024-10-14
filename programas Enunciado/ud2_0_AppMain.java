@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
-public class AppMain {
+public class ud2_0_AppMain {
 
 	public static void main(String[] args) {
-		AppMain a = new AppMain();
+		ud2_0_AppMain a = new ud2_0_AppMain();
 		a.run();
 	}
 	/**
