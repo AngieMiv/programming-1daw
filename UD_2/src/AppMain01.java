@@ -337,37 +337,59 @@ public class AppMain01 {
 			//int greater = 0;
 			System.out.println("Is it greater or less than " + randomNum + "?");
 			Scanner sc = new Scanner(System.in);
-			String symbol = sc.next();
+			String symbol = sc.nextLine();
+			
 			while (!symbol.equals(youWon)) { /*error check range RandomGenerator,
 											default int nextInt(int origin, int bound)
 											*/
+	
+				if (symbol.equals("999")) break;
+				
 				if (min >= max || max <= min) {
 		            System.out.println("hmm, something went wrong here. Start over.");
 		            break;
 				}
 				if (symbol.equals(less)) {
 					max = randomNum;
+					try {
 					randomNum = random.nextInt(min, max);
+					} catch (Exception e) {
+						
+						System.out.println("Incoherencia Detectada");
+					}
+					
+					
 					System.out.println("Is it greater or less than " + randomNum + "?");
 					//symbol = sc.nextLine();
-					//System.out.println("------------");
+					System.out.println("------------");
+					
+
 				} else if (symbol.equals(greater)) {
 					min = randomNum;
+					
+					try {
 					randomNum = random.nextInt(min, max);
+					} catch (Exception e) {
+						
+						System.out.println("Incoherencia Detectada");
+					}
 					System.out.println("Is it greater or less than " + randomNum + "?");
 					//symbol = sc.nextLine();
-					//System.out.println("oaoaoaoa");
+					System.out.println("oaoaoaoa");
 				}
 				
 				symbol = sc.nextLine();
-				
-				}
 			
+			
+				} // endWhile
+			/*
 				switch(symbol) {
 				case quit:
 					System.out.println("you're quitting, ok ok");
 					break;
 				}
+			*/
+			
 	
 			if (symbol.equals(youWon)) {
 				System.out.println("I won!");
