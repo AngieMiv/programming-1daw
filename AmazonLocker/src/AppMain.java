@@ -57,8 +57,10 @@ public class AppMain {
 		
 		String[][] lockerPack = new String[FILAS][COLUMNAS];		// Guardar el identificador único del paquete del cliente
 		boolean[][] lockerStat = new boolean[FILAS][COLUMNAS];		// Guardar estado del loocker true : libre, false : ocupado
-		
+		int [] posicion = {0,0};									// Vamos a utilizar un array de dos posiciones
+																	// para guardar fila en [0] y columna en [1]
 		boolean salir = false;
+		reset_locker(lockerPack,lockerStat);						// inicializar el locker
 		Scanner sc = new Scanner(System.in);
 		while (!salir) {
 			
@@ -81,20 +83,21 @@ public class AppMain {
 			
 			switch (opcion) {
 			
-				case 1:
-					mostrarOcupacion(lockerStat);
+				case 1:												// Ocupación del locker
+					mostrarOcupacion(lockerStat);					// resultado numérico
+					showLocker(lockerStat);							// resultado visual
 					break;
 				case 2:
-					dejarPaquete(lockerPack,lockerStat);
+					dejarPaquete(lockerPack,lockerStat);			// Depositar paquete en locker
 					break;
 				case 3:
-					estadoEnvio(lockerPack);
+					estadoEnvio(lockerPack);						// Comprobar si ha llegado el pedido
 					break;
 				case 4:
-					retirarPaquete(lockerPack,lockerStat);
+					retirarPaquete(lockerPack,lockerStat);			// Retirar mi paquete
 					break;
 				case 0:
-					salir = true;
+					salir = true;									// Abandonar aplicación
 					break;
 				default:
 					System.out.print("\nOpción no válida!");
@@ -114,7 +117,15 @@ public class AppMain {
 		 * Mostar el numero de 'cajones libres'
 		 * Mostrar el mumero de cajones ocupados ( TOTAL - 'cajones libres')
 		 */
-		System.out.print("\nMostrar ocupación NO IMPLEMENTADA ");
+		int libres=0;
+		for (int i = 0; i< FILAS; i++) {
+			for (int j =0 ; j < COLUMNAS; j++) {
+				
+				if (lock[i][j]==LIBRE) libres++;			// actualiza libres
+			}
+		}
+		System.out.print("\nCajones libres : "+ libres);
+		System.out.print("\nOcupación      : " + ((TOTAL-libres)*100)/TOTAL + "%");
 	}
 	
 	/**
@@ -122,14 +133,26 @@ public class AppMain {
 	 * @param lock
 	 */
 	public void dejarPaquete(String[][] lockPack,boolean[][] lockStat ) {
-		System.out.print("\nDejar Paquete NO IMPLEMENTADA ");
+		
 		/*
 		 * pedir codigo;
 		 * POSICION = buscar cajon libre;
 		 * asignar el codigo en el locker de paquetes en la POSICION
 		 * actualizar a true el locker de estado en la POSICION
 		 */
-	}
+		int[] pos = findLibre(lockStat);							// Busco un cajón libre
+		
+		if (pos == null) {											// procede a la operación
+			System.out.println("El locker está lleno, no se puede dejar paquetes");
+		} else {
+			String codigo = leerIdPedido();							// Pedir el código del pedido
+			int fila = pos[0];
+			int columna = pos[1];
+			lockPack[fila][columna] = codigo;						// Deposito el paquete
+			lockStat[fila][columna] = OCUPADO;						// Marcar el cajón como ocupado
+			System.out.println("Paquete depositado en la posición ["+fila+"]["+columna+"]");
+		}
+	} // end dejarPaquete
 	
 	/**
 	 * Método para comprobar si el paquete está ya en el locker
@@ -137,21 +160,29 @@ public class AppMain {
 	 */
 	
 	public void estadoEnvio(String[][] lock) {
-		System.out.print("\nEstado Envío NO IMPLEMENTADA ");
+		
 		/*
 		 * pedir el codigo;
 		 * recorre el locker buscando el codigo
 		 * y retornar TRUE si lo he encontrado o FALSE si no está todavía
 		 * Alternativamente puedo mostrar aquí el mensaje
 		 */
-		
+		String pedido = leerIdPedido();
+		int[] pos = findPedido(lock,pedido);
+		if (pos== null) {
+			System.out.print("\nSu pedido no se encuentra en el locker. ");
+		}
+		else {
+			System.out.print("\nSu pedido está listo para recoger. ");
+				
+		} 
 	}
 	/**
 	 * Método para recoger el paquete que está en el locker
 	 * @param lock
 	 */
 	public void retirarPaquete(String[][] lockPack,boolean[][] lockStat) {
-		System.out.print("\nRetirar Paquete NO IMPLEMENTADA ");
+		
 		
 		/*
 		 * pedir codigo;
@@ -159,15 +190,120 @@ public class AppMain {
 		 * actualizar a false el locker de estado en la POSICION
 		 * actualizo el estado 'sin paquete' el locker de paquetes
 		 */
+		int pos[];
+		String pedido = leerIdPedido();
+		pos = findPedido(lockPack,pedido);
+		if (pos==null) {
+			System.out.print("\nEl pedido : "+ pedido+ ", no se encuentra en el locker. ");
+		}
+		else {
+			int fila = pos[0];
+			int columna = pos[1];
+			lockPack[fila][columna]="";					// Retiro el paquete del cajón
+			lockStat[fila][columna]=LIBRE;				// Marco el cajón como libre
+			System.out.print("\nPaquete RECOGIDO con éxito ");
+		}
 	}
+	
+	/** Inicializar locker
+	 * 
+	 */
+	public void reset_locker(String[][] l1, boolean l2[][]) {
+		
+		for (int i = 0; i< FILAS; i++) {
+			for (int j =0 ; j < COLUMNAS; j++) {
+				
+				l1[i][j]="";							// Borrar pedidos registrados
+				l2[i][j]=LIBRE;							// Marcar estado a libre
+			}
+		}
+		
+	}  // end reset_locker
+	
+	/**
+	 * Obtener la primera posición libre
+	 */
+	
+	public int[] findLibre(boolean locker[][]) {
+		
+		int[] pos = new int[2];
+		for (int i = 0; i< FILAS; i++) {
+			for (int j =0 ; j < COLUMNAS; j++) {
+				
+				if (locker[i][j]==LIBRE) {
+					pos[0]=i;						// Escribo fila
+					pos[1]=j;						// Escribo olumna 
+					return pos;						// encontrado, lo retorno
+				};
+			}
+		}
+		return null;								// no encontrado
+		
+	} // end findLibre 
+	
+	/**
+	 * Obtener la posición del paquete
+	 * @param locker
+	 * @return posición o null si no se encuentra
+	 */
+	
+	public int[] findPedido(String locker[][],String pedido) {
+		
+		int[] pos = new int[2];
+		for (int i = 0; i< FILAS; i++) {
+			for (int j =0 ; j < COLUMNAS; j++) {
+				
+				if (locker[i][j]==pedido) {
+					pos[0]=i;						// Escribo fila
+					pos[1]=j;						// Escribo olumna 
+					return pos;						// encontrado, lo retorno
+				};
+			}
+		}
+		return null;								// no encontrado
+		
+	} // end findLibre 
+	
 	/**
 	 * Función auxiliar para pedir al usuario el identificador del pedido.
 	 * Vale tanto para el repartidor como para el cliente
 	 * @return
 	 */
 	public String leerIdPedido() {
+		Scanner sc = new Scanner(System.in);
+		boolean salir = false;
+		String codigo = "";
+		while (!salir) {
+			System.out.print("Introduce Identificador de pedido > ");
+			String id = sc.nextLine();
+			if (id.length()!=6) {
+				System.out.println("Identificador no válido (introduce 6 caracteres).");	
+			} 
+			else {
+				salir = true;
+			}
+		} // endWhile
+		return codigo;
+	} // endleerIdPedido
+	
+	/**
+	 * Muestra por pantalla el estado detallado de la ocupación del locker
+	 * 
+	 */
+	
+	public void showLocker(boolean[][] locker) {
 		
-		return null;
-	}
+		System.out.println();											// Fila de separación
+		for (int i = 0; i< FILAS; i++) {								// recorrer filas
+			for (int j =0 ; j < COLUMNAS; j++) {						// recorrer columnas
+		
+				System.out.print("[");
+				System.out.print((locker[i][j]==OCUPADO)?"*":" ");		// Pinto cajón en función de su estado
+				System.out.print("] ");
+			}
+			System.out.println();										// siguiente linea
+		}
+		System.out.println();											// Fila de separación
+	} // end showLocker
 } // endClass
 
