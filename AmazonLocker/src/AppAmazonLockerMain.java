@@ -35,8 +35,8 @@ import java.util.Scanner;
  * @author root
  *
  */
-public class AppMain {
-
+public class AppAmazonLockerMain {
+	
 	public final int FILAS = 6;										// Número de cajones en una columna
 	public final int COLUMNAS = 4;									// Número de columnas del locker
 	public final int TOTAL = FILAS * COLUMNAS;						// Total de cajones en el locker
@@ -48,7 +48,7 @@ public class AppMain {
 	public static void main(String[] args) {
 		
 		System.out.println("Aplicación Iniciada.");
-		AppMain app = new AppMain();
+		AppAmazonLockerMain app = new AppAmazonLockerMain();
 		app.run();
 		System.out.println("\n\nAplicación Terminada.");
 	}
@@ -56,7 +56,7 @@ public class AppMain {
 	public void run() {
 		
 		String[][] lockerPack = new String[FILAS][COLUMNAS];		// Guardar el identificador único del paquete del cliente
-		boolean[][] lockerStat = new boolean[FILAS][COLUMNAS];		// Guardar estado del loocker true : libre, false : ocupado
+		boolean[][] lockerStat = new boolean[FILAS][COLUMNAS];		// Guardar estado del loocker: true = libre, false = ocupado
 		int [] posicion = {0,0};									// Vamos a utilizar un array de dos posiciones
 																	// para guardar fila en [0] y columna en [1]
 		boolean salir = false;
