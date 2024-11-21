@@ -25,7 +25,7 @@ public class AppMain01 {
 		//ej216();
 		//ej217();
 		//ej218();
-		//ej220();
+		ej220();
 		//ej221();
 		//ej222();
 		//ej223();
@@ -33,7 +33,7 @@ public class AppMain01 {
 		//ej225();
 		//ej226(); // TODO
 		//ej227; //TODO
-		ej228();
+		//ej228();
 
 		System.out.println("\nFin de la aplicación");
 
@@ -375,12 +375,14 @@ public class AppMain01 {
 	}
 
 	public void ej220() { /**3 funciones que devuelvan min, max y media de un array de ints**/
-		int [] numeros = {-10, 10, 20, 30, 50};
-		int minimo = minimo(numeros);
-		int maximo = maximo(numeros);
+//		int [] numeros = {-10, 10, 20, 30, 50};
+		int [] numeros = {10, 20, 30, 40, 50, 60};
+		
+		//int minimo = minimo(numeros);
+		//int maximo = maximo(numeros);
 		float media = media(numeros);
-		System.out.println("El mínimo es " + minimo);
-		System.out.println("El maximo es " + maximo);
+		//System.out.println("El mínimo es " + minimo);
+		//System.out.println("El maximo es " + maximo);
 		System.out.println("La media es " + media);
 	}
 	public static int minimo (int[] valores) {
@@ -404,14 +406,19 @@ public class AppMain01 {
 		return max;
 	}
 	public static float media (int[] valores) {
-		int number = 0;
 		int total = 0;
-		for (int i = 0; i < valores.length; i++){
-			number = valores[i];
-			total = number + number;	
+		int i = 0;
+		while (i < valores.length) {
+			total = total + valores[i];
+			i++;
+		}
+		float med = total / valores.length;
+		return med;
+	/*	for (int i = 0; i <= valores.length; i++){
+			total = total + valores[i];	
 		}
 		float med = (float)total / valores.length ;
-		return med;
+		return med; */
 	}
 
 	public static void ej221() { /** fx that generates a random number and, depending its value,
@@ -561,7 +568,8 @@ public class AppMain01 {
 	 					1. fill the vector manually. the user fills each one of the 24 elements.
 	 					2. fill the vector randomly, 24 elements with values btw 0 and 40
 	 					3. show data. show the data storaged in the vector
-	 					4. obtain max and mins. shows the max and mins tempertures of the day, as the hours in which they were registered
+	 					4. obtain max and mins. shows the max and mins tempertures of the day, 
+	 					as the hours in which they were registered
 	 					5. **/
 		
 	}
