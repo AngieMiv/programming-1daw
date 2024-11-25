@@ -1,77 +1,82 @@
-
+/**
+ * Clase Coche			02/11/2023
+ * @author root
+ *
+ */
 public class Coche {
-
-	// -- atributos
+							// Visibildad
+	public String marca;	// +
+	String modelo;			// #
+	private int fechaMat;	// -
+	int litDeposito=60;		// #
+	String matricula="";	// #
 	
-	private String marca = "???";		// valor por defecto será este
-	public String matricula;			
-	private int motor; 					
-	public String color;				
-	private boolean radio = false;		// radio si/no
-
-	//  -- métodos
-
-	public Coche(){		// Constructor sin args
-		//inicialicación por defecto
-	}
-
-	public Coche(String _marca, String _matricula, int _motor, String _color, boolean _radio){	// Constructor con args
-		this.marca = _marca;
-		this.matricula = _matricula;
-		this.motor = _motor;
-		this.color = _color;
-		this.radio = _radio;
-	}
 	
-	public Coche(String _matricula, int _motor, String _color, boolean _radio){	// Otro constructor con args
-		this.matricula = _matricula;
-		this.motor = _motor;
-		this.color = _color;
-		this.radio = _radio;
+	// -- Constructor por defecto
+	public Coche() {
+			super();
+			// TODO Auto-generated constructor stub
+
 	}
 
-	/*
-	 *  cuando dentro del código de la clase, quiero que me retorne el valor de algo,
-	 *  utiliza el atributo de este objeto con "this.tal"
-	 */ 
-	
-	// -- crear los GETTERS
-	
-	public String getMarca() {
-		return this.marca;
-	}
-	
-	public int getMotor(){
-		return this.motor;
-	}
-	
-	public boolean getRadio() {
-		return this.radio;
-	}
-	
-	// -- CREAR LOS SETTERS
-	
-	public void setMarca(String marca) {
+	/**
+	 * Constructor de coche con todos los parámetros
+	 * @param marca	Marca del vehículo
+	 * @param modelo Modelo del vehículo
+	 * @param fechaMat Fecha de matriculación
+	 * @param litDeposito Litros de capacidad del diposito
+	 */
+	public Coche(String marca, String modelo, int fechaMat, int litDeposito) {
+		super();
 		this.marca = marca;
-	};
-	public void setMotor(int motor) {
-		this.motor = motor;
+		this.modelo = modelo;
+		this.fechaMat = fechaMat;
+		this.litDeposito = litDeposito;
 	}
-	public void setRadio(boolean radio) {
-		this.radio = radio;
+	
+	public Coche(String ma, String mo) {
+		
+		this.marca = ma;
+		this.modelo = mo;
 	}
 
-	// -- método 2 para imprimir ficha del coche 
-
-	public void fichaTecnica() {
-		System.out.println("\nFICHA AUTOMÓVIL");
-		System.out.println("-------------------");
-		System.out.println("Marca: " + this.getMarca());
-		System.out.println("Matricula: " + this.matricula);
-		System.out.println("Motor: " + this.getMotor()); // se podría utilizar this.motor bc estoy dentro de la clase
-		System.out.println("Color: " + this.color);
-		System.out.println("Tiene radio: " + this.getRadio());
-		System.out.println("-------------------\n");
+	public Coche(String marca, String modelo, int fechaMat, int litDeposito, String _matricula) {
+		super();
+		this.marca = marca;
+		this.modelo = modelo;
+		this.fechaMat = fechaMat;
+		this.litDeposito = litDeposito;
+		this.matricula = _matricula;
 	}
+
+	// -- Getters y Setters para los atributos privados y no privados
+	//----------------------------------------------------------------
+	public int getFechaMat() { return fechaMat;}
+	public void setFechaMat(int _fechaMat) {this.fechaMat = _fechaMat;}
+	
+	public String getMarca() {return marca;	}
+	public void setMarca(String marca) {this.marca = marca;	}
+
+	public String getModelo() {return modelo;}
+	public void setModelo(String modelo) {this.modelo = modelo;	}
+
+	public int getLitDeposito() {return litDeposito;}
+	public void setLitDeposito(int litDeposito) {this.litDeposito = litDeposito;}
+
+	// -- Método adHoc que muestra por panatalla la marca y el modelo
+	public void soy() {
+		System.out.println("Yo soy un "+ marca + " "+modelo);
+	}
+
+	// -- Método toString que devuelve un string en formato csv con todos los atributos 
+	// -- del objeto
+	
+	public String toString() {
+		
+		String str =marca + "," + modelo + ","+ litDeposito + "," + fechaMat;
+		return str;
+	}
+	
+	
 
 }
