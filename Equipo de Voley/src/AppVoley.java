@@ -3,18 +3,18 @@ public class AppVoley {
 
 	public static void main(String[] args) {
 
-		//create Coach & Coach[]
+		//create Coach & Coach[] (individual coach and group of coaches)
 		Coach e1 = new Coach("Alba", 21, 10);
-		Coach e2 = new Coach("André", 20, 10);
+		Coach e2 = new Coach("André", 22, 10);
 		Coach[] entrenadoresE1 = {e1, e2};
 
 		Coach e3 = new Coach("JAunjo", 32, 15);
 		Coach e4 = new Coach("Miv", 27, 12);
 		Coach[] entrenadoresE2 = {e3, e4};
 
-		//at the end there's a player's constructor with dateOfBirth
+		//at the end there's a player's constructor with dateOfBirth TODO, const/var not implemented yet
 		
-		//create Player & Player[]
+		//create Player & Player[] (individual player and group of players)
 		Player p1 = new Player("Yoshi", 27, Position.SETTER, 1, 25, true);
 		Player p2 = new Player("Kappa", 20, Position.LIBERO, 1, 25, true);
 		Player p3 = new Player("Knuckels", 21, Position.MIDDLE_BLOCKER, 1, 25, true);
@@ -31,27 +31,41 @@ public class AppVoley {
 		Player p12 = new Player("Sugawara", 24, Position.SERVING_SPECIALIST, 2, 25, true);
 		Player[] jugadoresJ2 = {p7, p8, p9, p10, p11, p12};
 
-		//create Team(s)
+		//create Team(s) with its players and coaches
 		Team equipo1 = new Team("Equipo1", jugadoresJ1, entrenadoresE1);
 		Team equipo2 = new Team("Equipo2", jugadoresJ2, entrenadoresE2);
+		
+		/*-------CALLING THE METHODS-------*/
+		
+		//--- calling and printing method to show the coaches (there are e1 to e4 cocahces)info
+		System.out.println("COACH = " + infoCoach(e1));
+		System.out.println("COACH = " + infoCoach(e3) + "\n");
+		
+		//--- calling and printing method to show the players info(there are p1 to p12 players)
+		System.out.println("PLAYER = " + infoPlayer(p1));
+		System.out.println("PLAYER = " + infoPlayer(p9) + "\n");
+		
+		// calling and printing method to show the info of the group of coaches and the group of players
+		System.out.print(infoCoachES(entrenadoresE2)); // sysoLN included in infoCoachES
+		System.out.print(infoPlayerS(jugadoresJ1)); // sysoLN included in infoPlayerS
 
 		//--- calling and printing method to show the complete team info
-		System.out.println(infoTeam(equipo1, entrenadoresE1, jugadoresJ1));
-		//System.out.println(infoTeam(equipo2, entrenadoresE2, jugadoresJ2));
+		System.out.print(infoTeam(equipo1, entrenadoresE1, jugadoresJ1));
+		System.out.print(infoTeam(equipo2, entrenadoresE2, jugadoresJ2));
 		
 
-		//System.out.print(infoCoachES(entrenadoresE2)); // sysoLN included in infoCoachES
-		//System.out.print(infoPlayerS(jugadoresJ1)); // sysoLN included in infoPlayerS
 
 	} // end main AppVoley
 
 	/* ---- printing methods ---- */
 
-	//print infoCoach & infoCoachES
+	//print info of ONE COACH
 	public static String infoCoach(Coach c) {
 		String infoC = "Name: " + c.getName() + ", *Age: " + c.getAge() + ", *Total Awards: " + c.getNumAwards();
 		return infoC;
 	}
+	
+	//print info of a SET of COACHES
 	public static String infoCoachES(Coach[] cs) {
 		String infoCs;
 		System.out.println("*---------COACHES---------*");
@@ -62,12 +76,14 @@ public class AppVoley {
 		return "\n";
 	}
 
-	//print infoPlayer & infoPlayerS
+	//print infoPlayer of ONE PLAYER
 	public static String infoPlayer(Player p) {
 		String infoP = "Name: " + p.getName() + ", *Age: " + p.getAge() + ", *Position: " + p.getPosition() + 
 				", *Number: " + p.getNumber() + ", *Active?: " + p.getIsActive(); 
 		return infoP;
 	}
+	
+	//print info of a SET of PLAYERS
 	public static String infoPlayerS(Player[] ps) {
 		String infoPs;
 		System.out.println("*---------PLAYERS---------*");
@@ -78,16 +94,16 @@ public class AppVoley {
 		return "\n";
 	}
 	
-	//print complete team info
-
+	//print COMPLETE TEAM info
 	public static String infoTeam(Team t, Coach[] cs, Player[] ps) {
-		System.out.println("*---------TEAM---------*");
-		String infoT = "  *Team: " + t.getName();
-		System.out.println(infoT); // prints only the team name, the rest of the info is below
-		System.out.print(infoCoachES(cs) + infoPlayerS(ps)); /* calls the 2 methods to print
+		System.out.println("*----------TEAM-----------*");
+		String infoT = "  *Team name: " + t.getName();
+		System.out.println(infoT + "\n"); // prints only the team name, the rest of the info is below
+		System.out.print(infoCoachES(cs));
+		System.out.print(infoPlayerS(ps));/* calls the 2 methods to print
 						the info of coaches and players, since the team is composed by
 						the team name, the coaches and players */
-		return "\n";
+		return "*--------------------------*\n\n";
 	}
 
 }
