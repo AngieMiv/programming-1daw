@@ -1,5 +1,4 @@
 
-
 /**
  * Clase AppMain			02/11/2023
  * Clase principal del programa, que contiene
@@ -7,8 +6,6 @@
  * @author root
  *
  */
-
-
 
 public class AppMain {
 
@@ -33,12 +30,14 @@ public class AppMain {
 		// Inicializar cada objeto con sus atributos
 		c2.litDeposito = 60;		// Como es visible utlizamos el método de referencia por nombre
 		c2.setFechaMat(2022);		// Como es privado utilizado el setter disponible
+		
 		// -------- c1
 		c1.marca ="BMW";
 		c1.modelo ="311";
 		c1.litDeposito = 60;
 		c1.setFechaMat(2019);
 		// -------- c2
+		
 		
 		// Crear garaje
 		

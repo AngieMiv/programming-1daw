@@ -56,8 +56,6 @@ public class Garaje {
 	 */
 	public void setMisCoches(Coche[] misCoches) {
 		this.misCoches = misCoches;
-	}
-	
-	
+	}	
 	
 }

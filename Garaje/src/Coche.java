@@ -73,7 +73,7 @@ public class Coche {
 	
 	public String toString() {
 		
-		String str =marca + "," + modelo + ","+ litDeposito + "," + fechaMat;
+		String str =marca + ", " + modelo + ", "+ litDeposito + ", " + fechaMat;
 		return str;
 	}
 	
