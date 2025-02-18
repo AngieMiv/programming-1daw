@@ -1,7 +1,5 @@
 package menu;
 
-import java.util.Scanner;
-
 public class AppMenu {
 
 	public AppMenu() {
@@ -10,33 +8,33 @@ public class AppMenu {
 
 	public static void main(String[] args) {
 
-		String[] opcGaraje = {
-				"Añadir Coche",
-				"Añadir Garage",
-				"Eliminar Coche",
-				"Eliminar Garage"
+		String[] opcs = {
+				"  ",
+				"  ",
+				"  ",
+				"  "
 		};
 
-		boolean appSalir =false;
+		boolean appSalir = false;
 
-		Menu m1 = new Menu("Garage: Opciones disponibles", opcGaraje);
+		Menu m1 = new Menu("Garage: Opciones disponibles", opcs);
 
 		while(!appSalir) {
 			m1.mostrar();
-			int OpcElegida = m1.seleccionaOpc();
+			int opcElegida = m1.seleccionaOpc();
 
-			switch (OpcElegida) {
+			switch (opcElegida) {
 			case 1:
-				System.out.println("Opción:"+ OpcElegida + ". No implementada");
+				System.out.println("Opción:"+ opcElegida + ". No implementada");
 				break;
 			case 2:
-				System.out.println("Opción:"+ OpcElegida + ". No implementada");
+				System.out.println("Opción:"+ opcElegida + ". No implementada");
 				break;
 			case 3:
-				System.out.println("Opción:"+ OpcElegida + ". No implementada");
+				System.out.println("Opción:"+ opcElegida + ". No implementada");
 				break;
 			case 4:
-				System.out.println("Opción:"+ OpcElegida + ". No implementada");
+				System.out.println("Opción:"+ opcElegida + ". No implementada");
 				break;
 			case 0:
 				appSalir = true;
