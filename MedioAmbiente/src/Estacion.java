@@ -59,13 +59,6 @@ public abstract class Estacion {
 	 * Método abstracto
 	 * @return Potencia consumida según el tipo de estación
 	 */
-	abstract double calculaConsumo(Estacion e);
-	
-	/*1B.- Implementa el método eligeEstacion() de la clase AppMain.
-	Pedirá al usuario un número de estación válido en función de total
-	de estaciones disponibles en la aplicación.
-	Si no elige un número válido se retornará null y
-	si es válido, el objeto Estación elegido.*/
-	
+	abstract double calculaConsumo();
 	
 }

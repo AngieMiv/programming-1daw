@@ -13,26 +13,14 @@ public class EstacionTipoA extends Estacion {
 	}
 
 	/*
-	 * EstacionTipoA : 	consumo = potencia + 840.0 + 10 (si tiene redundancia) + 10 (si tiene correccción 				de errores).
+	 * EstacionTipoA : 	consumo = potencia + 840.0 + 25 (si tiene redundancia) + 10 (si tiene correccción 				de errores).
 	 */
 	@Override
-	double calculaConsumo(Estacion a) {
-		double potencia = getPotencia();
-		double cRedundante, cCorErrores;
-		
-		cRedundante = (this.redundante)?10:0;
-		cCorErrores = (this.cErrores)?10:0;
-		
-		return potencia + cRedundante + cCorErrores;
-	};
-	
-	// getters
-	public boolean isRedundante() {return redundante;}
-	public boolean iscErrores() {return cErrores;}
-
-	// setters
-	public void setRedundante(boolean redundante) {this.redundante = redundante;}
-	public void setcErrores(boolean cErrores) {this.cErrores = cErrores;}
+	double calculaConsumo() {
+		double result = 0.0;
+		result = this.getPotencia() + 840.0 + (10.0 * ((redundante)?1.0:0.0)) + (10.0 *((cErrores)?1.0:0.0));
+		return result;
+	}
 
 	
 }

@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 import tools.Menu;
 
-
+ 
 public class AppMain {
 
 	public Estacion[] estaciones = new Estacion[6];			// Gestionamos 6 estaciones
@@ -11,29 +11,27 @@ public class AppMain {
 	public Medida[] medidas ;								// TODO
 	private static String[] n_est = {"BARAJAS","CUZCO","ARGUELLES","MONCLOA","SOL","ATOCHA"};
 	private static String NA = "Sin Asignar";
-
+	
 	public AppMain() {	}									// Instanciar programa
 
 	public static void main(String[] args) {				// Lanzador del programa
-
+	
 		System.out.println("Iniciando Aplicación...");
 		AppMain ma = new AppMain();
 		ma.run();
 		System.out.println("Aplicación terminada");
 	} // main
-
+	
 	/** Ejecuta un objeto AppMain, para evitar uso de static
 	 * 
 	 */
 	public void run() {										// Pto de arranque no estático
-
-		String[] opciones = {
-				"Listar estaciones",
-				"Seleccionar estacion",
-				"Cargar diario en estacion",
-				"Listar Medidas",
-				"Resumen Estaciones"
-		};
+		
+		String[] opciones = {	"Listar estaciones",
+								"Seleccionar estacion",
+								"Cargar diario en estacion",
+								"Listar Medidas",
+								"Resumen Estaciones"};
 		String titulo = "MEDIO AMBIENTE 1.O";
 		Menu m = new Menu(titulo,opciones);
 		boolean salir = false;
@@ -65,7 +63,7 @@ public class AppMain {
 			}		
 		} // Bucle principal
 	} // run
-
+	
 	/**
 	 * PREGUNTA 1B. Implementa el método eligeEstacion(). Deberás solicitar un número de estación
 	 * válido en función de total de estaciones disponibles en la aplicación.
@@ -74,30 +72,24 @@ public class AppMain {
 	 * @return Estación elegida o null si se cancela la selección
 	 */
 	public Estacion eligeEstacion() {
-
+		
 		Estacion result= null;
-		Scanner sc = new Scanner(System.in);
-
-		System.out.println("Elige un número de estación, del 1 al 6");
-		try {
-			int estacion = sc.nextInt();
-
-			if (estacion <= 6 && estacion >= 0) {
-				result = estaciones[estacion - 1];
-			} else {
-				return null;
-				//System.out.println("No válido, introduce un número del 1 al 6");
-			} 
-		} catch (Exception e) {
-			System.out.println("Debes introducir un número del 1 al 6");
-		}
+		// PREGUNTA 1B.
+		/* 
+		 * Código respuesta
+		*/
+			Scanner sc = new Scanner(System.in);
+			System.out.print("Elige un número de estacion:(1-"+ n_est.length+") ?");
+			int i = sc.nextInt();
+			if (i>=1 && i<n_est.length) result = estaciones[i-1];
+			
 		return result;
 	}
 
 	/**
 	 * PREGUNTA 2. Genera un listado formateado de las estaciones disponibles en la aplicación. Se mostrará un número de orden
 	 * secuencia, el nombre de la estación, el total de diarios que tiene asignados esa estación y el total de medidas con las
-	 * que cuenta la estación (habrá que sumar las medidas disponibles en todos sus diarios).
+	 * que cuenta la estación ( habrá que sumar las medidas disponibles en todos sus diarios).
 	 * No cuentan los diarios y las medidas que tienen valor nulo. Utiliza las funciones para obtener totales parciales que 
 	 * implementan las clases DiarioMedidas y Medida.
 	 * Debes presentar la información tabulada. Utiliza la función justifica para conseguir el efecto deseado.
@@ -106,13 +98,31 @@ public class AppMain {
 	 * nombre de la estación, número de diarios de medida de esa estación y todas de medidas de todos los diarios que pertencen a esa estación
 	 */
 	public void listarEstaciones() {
-
-		System.out.println("Nombre de las estaciones:");
-		for (int i = 0; i < estaciones.length; i++) {
-			System.out.println(estaciones[i].getNombre());
-		}
-
-
+		
+		// PREGUNTA 2.
+				/* 
+				 * Código respuesta
+				*/
+		
+		
+		// Cabecera
+		System.out.println(justifica("NUM",3)+ justifica("ESTACION",10)+justifica("DIARIOS",9)+justifica("MEDIDAS",9));
+		System.out.println("----------------------------------------------");
+		// Datos
+		for (int i=0;i< estaciones.length;i++) {
+			Estacion est = estaciones[i];
+			if (est != null) { // endif
+				int total_diarios = est.getTotalDiarios();
+				int total_medidas = 0;
+				for (int j=0;j< est.diarios.length;j++) {
+					if (est.diarios[j]!=null) {
+						total_medidas = total_medidas + est.diarios[j].getTotalMedidas();
+					}
+				} // bucle mediciones
+				System.out.println(justifica(""+(i+1),3)+justifica(estaciones[i].getNombre(),10) + justifica(""+total_diarios,9) + justifica(""+total_medidas,9));
+			}
+		} // bucle de estaciones
+		System.out.println("\n");
 	};
 	/**
 	 * PREGUNTA 3. Lista las medidas que tiene asignadas una estación. La información se debe presentar en forma tabular.
@@ -124,15 +134,37 @@ public class AppMain {
 	 * @param estacion Estación sobre la que se listarán las medidas
 	 */
 	public void listarMediciones(Estacion estacion) {
-
+		
 		// PREGUNTA 3.
-		/* 
-		 * Código respuesta
-		 */
-
-	}
-
-
+				/* 
+				 * Código respuesta
+				*/
+		
+		if (estacion!=null) {		
+			System.out.println(justifica("ESTACION",10) + justifica("DIARIO",14)+ justifica("FECHA",22)+
+							   justifica("TEMP ºC",10)+ justifica("PRESS mB",10)+justifica("HUMED.%",10));
+			for (int i=0; i< estacion.diarios.length;i++) {
+				DiarioMedidas diario = estacion.diarios[i];
+				if (diario!=null) {
+					for (int j=0; j< diario.medidas.length;j++) {
+						Medida medida = diario.medidas[j];
+						if (medida!=null) {
+							// Muestra medidas
+							System.out.println(justifica(estacion.getNombre(),10) + justifica(diario.getFecha().toString(),14)+ justifica(medida.getFechahora().toString(),22)+
+									   justifica(""+medida.getTemperatura(),10)+ justifica(""+medida.getPresion(),10)+justifica(""+medida.getHumedad(),10));
+						} // Medida no nula
+					} // Recorrer medidas
+				} // Diario de medida no nulo
+			} // Recorrer diarios de medida
+			
+		} // estación no nula
+		else {
+			System.out.println("\n*** Elije una estación primero!");
+		}
+		
+	};
+	
+	
 	/**
 	 * PREGUNTA 4. Genera una tabla resumen, que presente el total de estaciones de cada tipo y la potencia que consumen
 	 * Debes generar una última línea de acumulados.
@@ -144,38 +176,42 @@ public class AppMain {
 	 * Potencia total por cada tipo
 	 */
 	public void resumenEstaciones() {
+		
+		
+		
+		// PREGUNTA 4.
+		/* 
+		 * Código respuesta
+		*/
 
-		//		private String justifica(String cad,int numero) {		
-		//			return String.format("%1$-" + numero + "s", cad); // justifica a la izq , añadir %1$- para dcha
-		//		}
-		System.out.println("RESUMEN ESTACIONES");
-		System.out.println("-------------------------------");
-		int a = 0, b = 0;
-		for(int i = 0; i < this.estaciones.length; i++) {
-			if (estaciones[i].isMovil() == true) {
-				a += 1;
-			} else {
-				b += 1;
-			}	
-		}
-//		Double[] just = {(double) a, this.estaciones[i].calculaConsumo(estaciones[i])};
-		String kk[];
-		int num = 18;
-//		for (int i = 0; i < this.estaciones.length; i++)  
-//		{
-//			if (this.estaciones != null) {
-//				kk = justifica(a, + this.estaciones[i].calculaConsumo(estaciones[i]) + num);
-//			}
-//		}
+		int tot_est, tot_estA=0,  tot_estB=0;
+		double tot_pot=0.0, tot_potA=0.0 ,tot_potB=0.0;
+		
+		
+		tot_est = estaciones.length;
+		for (int i=0;i<tot_est;i++) {
 			
-		//String[] cad = {(String)a, };
-
-		System.out.println("ESTACIONES TIPO A : " + a);
-		System.out.println("ESTACIONES TIPO B : " + b);
-
-	}
-
-
+			Estacion e = estaciones[i];
+			double consumo = e.calculaConsumo();
+			if (e instanceof EstacionTipoA) {
+				tot_estA++;
+				tot_potA = tot_potA + consumo;
+			}
+			else { // EstacionTipoB
+				tot_estB++;
+				tot_potB = tot_potB + consumo;
+			}
+		} //endfor estaciones
+		tot_pot = tot_potA + tot_potB;
+		System.out.println("RESUMEN ESTACIONES");
+		System.out.println("-------------------------------------");
+		System.out.println("ESTACIONES TIPO A : " + tot_estA + " , CONSUMO : " + tot_potA);
+		System.out.println("ESTACIONES TIPO B : " + tot_estB + " , CONSUMO : " + tot_potB);
+		System.out.println("-------------------------------------");
+		System.out.println("TOTALES           : " + tot_est  + " , CONSUMO : "  + tot_pot);
+		System.out.println("\n");
+	};
+	
 	/**
 	 * Elige un diario de medidas de entre los registrados para cargar en una estación 
 	 * @return diario de medidas para cargar /visualizar
@@ -189,7 +225,7 @@ public class AppMain {
 			String  valor = "< Vacío >";
 			if (this.diarios[i]!= null) 
 			{
-				valor = justifica(this.diarios[i].getEstacion() + this.diarios[i].getFecha() , 18);
+				 valor = justifica(this.diarios[i].getEstacion(),18) + this.diarios[i].getFecha();
 			} // Diario con datos
 			opcs[i] = valor;
 		} // Diarios registrados
@@ -201,10 +237,8 @@ public class AppMain {
 			result = this.diarios[elegida-1];
 		return result;
 	}
-
-
-
-
+	
+	
 	/**
 	 * Asigna el diario de medidas a la estación ( lo añade y cambia el valor del campo estación con
 	 * el nombre de la estación). Los diarios sólo se pueden añadir a una estación.
@@ -213,30 +247,30 @@ public class AppMain {
 	 * @return true operación OK, false errores en el proceos
 	 */
 	public boolean cargarDiario(Estacion e) {
-
+	
 		if (e!=null) {
-			DiarioMedidas dm_elegido = this.eligeDiarioMedidas();				// Elegir diario de medidas
-			if (dm_elegido == null) {
-				System.out.println("\n*** Operación cancelada.");
-				return false;
-			}
-			if (!dm_elegido.getEstacion().equals("Sin Asignar")) {	// Comprueba que no esté ya asignado
-				System.out.println("\n*** Este diario ya está cargado,elige otro.");
-				System.out.println("Operación cancelada.");
-				return false;
-			}
-			else {
-				e.addMedicion(dm_elegido);				// Añado el diario de medidas a la estaicón
-				dm_elegido.setEstacion(e.getNombre());	// Marco el nombre de la estación
-				System.out.println("Diario añadido.");
-				return true;
-			}
-		} else {
+				DiarioMedidas dm_elegido = this.eligeDiarioMedidas();				// Elegir diario de medidas
+				if (dm_elegido == null) {
+					System.out.println("\n*** Operación cancelada.");
+					return false;
+				}
+				if (!dm_elegido.getEstacion().equals("Sin Asignar")) {	// Comprueba que no esté ya asignado
+					System.out.println("\n*** Este diario ya está cargado,elige otro.");
+					System.out.println("Operación cancelada.");
+					return false;
+				}
+				else {
+					e.addMedicion(dm_elegido);				// Añado el diario de medidas a la estaicón
+					dm_elegido.setEstacion(e.getNombre());	// Marco el nombre de la estación
+					System.out.println("Diario añadido.");
+					return true;
+				}
+		}else {
 			System.out.println("\n*** Elige una estación primero!");
 			return false;
 		}
 	}
-
+	
 
 	/**
 	 * Inicializa un conjunto de datos para utilizar la aplicación
@@ -253,16 +287,13 @@ public class AppMain {
 		Medida m302 = new Medida("2025-01-29T02:10:03#35#323#55");		Medida m303 = new Medida("2025-01-29T03:11:03#36#323#55");
 		Medida m400 = new Medida("2025-01-30T00:12:04#03#423#65");		Medida m401 = new Medida("2025-01-30T01:13:04#04#423#65");
 		Medida m402 = new Medida("2025-01-30T02:14:04#05#423#65");		Medida m403 = new Medida("2025-01-30T03:15:04#06#423#65");
-
+	
 		Medida[] datosmedidas = {m100,m101,m102,m103,m200,m201,m202,m203,m300,m301,m302,m303,m400,m401,m402,m403};
 
 		boolean _SI = true; boolean _NO = false;
 		for (int e=0;e<6;e++) {
-			if (e==0 ||  e==3) {
-				this.estaciones[e]= new EstacionTipoA(n_est[e], (e%2==0)?_SI:_NO, 50,(e%2==0)?_SI:_NO, (e%2==1)?_SI:_NO);
-			} else {
-				this.estaciones[e]= new EstacionTipoB(n_est[e], (e%2==0)?_SI:_NO, 50,(e%2==0)?1:2, (e%2==1)?8:16);
-			}
+			if (e==0 ||  e==3) {this.estaciones[e]= new EstacionTipoA(n_est[e], (e%2==0)?_SI:_NO, 50,(e%2==0)?_SI:_NO, (e%2==1)?_SI:_NO);}
+			else {				this.estaciones[e]= new EstacionTipoB(n_est[e], (e%2==0)?_SI:_NO, 50,(e%2==0)?1:2, (e%2==1)?8:16);	}
 		}
 		// vacía todos los  diarios
 		for (int i=0;i<this.diarios.length;i++) {
@@ -281,22 +312,7 @@ public class AppMain {
 		} // bucle diarios
 		this.estaciones[2].addMedicion(this.diarios[1]); // Asigna un diario
 	}  // init_data
-
-
-	// getters
-	public Estacion[] getEstaciones() {return estaciones;}
-	public DiarioMedidas[] getDiarios() {return diarios;}
-	public Medida[] getMedidas() {return medidas;}
-	public static String[] getN_est() {return n_est;}
-	public static String getNA() {return NA;}
-
-	// setters
-	public void setEstaciones(Estacion[] estaciones) {this.estaciones = estaciones;}
-	public void setDiarios(DiarioMedidas[] diarios) {this.diarios = diarios;}
-	public void setMedidas(Medida[] medidas) {this.medidas = medidas;}
-	public static void setN_est(String[] n_est) {AppMain.n_est = n_est;}
-	public static void setNA(String nA) {NA = nA;}
-
+	
 	/**
 	 * Función auxiliar para justificar con espacios el contenido del string
 	 * @param cad Cadena original 
@@ -306,5 +322,4 @@ public class AppMain {
 	private String justifica(String cad,int numero) {		
 		return String.format("%1$-" + numero + "s", cad); // justifica a la izq , añadir %1$- para dcha
 	}
-	
 } // Class

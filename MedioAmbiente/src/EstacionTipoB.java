@@ -13,11 +13,11 @@ public class EstacionTipoB extends Estacion {
 	/*
 	 * EstacionTipoB : 	consumo = potencia + 92,5 + 25 * numVar + 10 * memoria
 	 */
-	
 	@Override
-	double calculaConsumo(Estacion b) {
-		double consumo = this.getPotencia() + 92.5 + (25 * this.numVar) + (10 * this.memoria);
-		return consumo;
+	double calculaConsumo() {
+		double result =0.0;
+		result = this.getPotencia() + 92.5 + (25.0 * this.numVar) + (10.0 * this.memoria);
+		return result;
 	}
 
 }
